@@ -11,7 +11,11 @@ and SRAM devices utilize.
 This is the derived class that users will actually instantiate in Arduino
 sketches. It defines the specific commands that the S29GL064S IC family utilizes
 for flash operations (program, erase, status register access).
+
 <mark>Not all S29GL064S commands have been implemented in this class!</mark>
+
+More commands can easily be implemented using the `command_write_cycle`
+protected base class member to define commands from the datasheet.
 
 ### Microcontroller pin assignments
 This library utilizes C++ vectors for storing the address and data pins of the 
