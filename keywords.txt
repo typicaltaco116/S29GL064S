@@ -1,0 +1,11 @@
+# Syntax coloring for Arduino IDE
+S29GL064S	KEYWORD1
+async_parallel_bus_HAL	KEYWORD1
+begin	KEYWORD2
+word_read	KEYWORD2
+word_program	KEYWORD2
+sector_erase	KEYWORD2
+evaluate_erase	KEYWORD2
+chip_erase	KEYWORD2
+status_reg_read	KEYWORD2
+set_write_protect	KEYWORD2
