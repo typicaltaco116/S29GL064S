@@ -21,5 +21,6 @@ async_parallel_bus_HAL base class.
 
 ### Arduino support targets
 - Arduino DUE (AT91SAM3X8E)
+
 More Arduino devices could be implemented with updating the digitalWriteFast() 
 macro implementation for additional devices.
