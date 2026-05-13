@@ -23,7 +23,7 @@ Arduino DUE microcontroller. These assignments are passed into the class
 instatiation using the parameterized constructor inherited from the 
 async_parallel_bus_HAL base class.
 
-### Arduino support targets
+### Arduino supported targets
 - Arduino DUE (AT91SAM3X8E)
 
 More Arduino devices could be implemented with updating the digitalWriteFast() 
