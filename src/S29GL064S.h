@@ -1,5 +1,4 @@
 #include "async_parallel_bus_HAL.h"
-//#include <async_parallel_bus_HAL.h>
 
 class S29GL064S : public async_parallel_bus_HAL {
     using async_parallel_bus_HAL::async_parallel_bus_HAL; // inherit constructor
