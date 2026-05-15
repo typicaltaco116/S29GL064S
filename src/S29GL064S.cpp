@@ -7,10 +7,8 @@ void S29GL064S::set_write_protect(void)
     digitalWriteFast(WP_pin, LOW);
 }
 
-bool S29GL064S::word_program(uint32_t address, uint16_t data)
+void S29GL064S::word_program(uint32_t address, uint16_t data)
 {
-    bool fail_flag;
-
     digitalWriteFast(OE_pin, HIGH);
     digitalWriteFast(CE_pin, LOW);
     set_DQ_output();
@@ -24,18 +22,13 @@ bool S29GL064S::word_program(uint32_t address, uint16_t data)
 
     digitalWriteFast(OE_pin, LOW);
     while ((bool)digitalRead(data_pins[7]) != (bool)(data & (1 << 7)));
-    fail_flag = digitalRead(data_pins[5]);
 
     digitalWriteFast(CE_pin, HIGH);
     digitalWriteFast(OE_pin, HIGH);
-
-    return fail_flag;
 }
 
-bool S29GL064S::sector_erase(uint32_t address)
+void S29GL064S::sector_erase(uint32_t address)
 {
-    bool fail_flag;
-
     digitalWriteFast(CE_pin, LOW);
     digitalWriteFast(OE_pin, HIGH);
     set_DQ_output();
@@ -48,25 +41,15 @@ bool S29GL064S::sector_erase(uint32_t address)
     command_write_cycle(address, 0x30);
 
     set_DQ_input();
+    digitalWriteFast(OE_pin, LOW);
 
-    unsigned long first_time = millis();
-    while (millis() - first_time < 800) {
-        digitalWriteFast(OE_pin, LOW);
-        delayMicroseconds(10);
-        digitalWriteFast(OE_pin, HIGH);
-        delayMicroseconds(10);
-    }
-
-    //while (!digitalRead(data_pins[7]));
-    fail_flag = digitalRead(data_pins[5]);
+    while (!digitalRead(data_pins[7]));
 
     digitalWriteFast(CE_pin, HIGH);
     digitalWriteFast(OE_pin, HIGH);
-
-    return fail_flag;
 }
 
-bool S29GL064S::chip_erase(void)
+void S29GL064S::chip_erase(void)
 {
     digitalWriteFast(CE_pin, LOW);
     digitalWriteFast(OE_pin, HIGH);
@@ -82,23 +65,14 @@ bool S29GL064S::chip_erase(void)
     set_DQ_input();
     digitalWriteFast(OE_pin, LOW);
 
-    bool last_DQ_2_value;
-    bool current_DQ_2_value = digitalRead(data_pins[2]);
-
-    do {
-        last_DQ_2_value = current_DQ_2_value;
-        digitalWriteFast(OE_pin, HIGH);
-        digitalWriteFast(OE_pin, LOW);
-        current_DQ_2_value = digitalRead(data_pins[2]);
-    } while (last_DQ_2_value != current_DQ_2_value);
+    while (!digitalRead(data_pins[7]));
 
     digitalWriteFast(CE_pin, HIGH);
     digitalWriteFast(OE_pin, HIGH);
-
-    return false;
 }
 
 void S29GL064S::evaluate_erase(uint32_t address)
+// Not fully implemented
 {
     digitalWriteFast(CE_pin, LOW);
     digitalWriteFast(OE_pin, HIGH);
@@ -117,6 +91,7 @@ S29GL064S::SR_bitfields S29GL064S::status_reg_read(void)
 {
     uint16_t bitmask;
     uint16_t dataBuffer = 0;
+    SR_bitfields status_reg;
 
     // Send SR read command
     digitalWriteFast(CE_pin, LOW);

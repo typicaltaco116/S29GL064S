@@ -17,13 +17,12 @@ public:
         bool CC;
     };
 
-    bool word_program(uint32_t address, uint16_t data);
-    bool sector_erase(uint32_t address);
+    void word_program(uint32_t address, uint16_t data);
+    void sector_erase(uint32_t address);
     void evaluate_erase(uint32_t address);
-    bool chip_erase(void);
+    void chip_erase(void);
 
     SR_bitfields status_reg_read(void);
-    SR_bitfields status_reg;
 
     void set_write_protect(void);
 };
